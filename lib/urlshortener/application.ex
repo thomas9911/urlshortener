@@ -7,9 +7,10 @@ defmodule Urlshortener.Application do
 
   @impl true
   def start(_type, _args) do
-    :url_shortener = :ets.new(:url_shortener, [:ordered_set, :public, :named_table, {:read_concurrency, true}])
+    :url_shortener =
+      :ets.new(:url_shortener, [:ordered_set, :public, :named_table, {:read_concurrency, true}])
 
-    :ets.insert(:url_shortener, {"oke", "https://google.com"})
+    :ets.insert(:url_shortener, {"oke", "https://google.com", DateTime.utc_now |> DateTime.to_iso8601, DateTime.utc_now |> DateTime.to_iso8601})
 
     children = [
       {Bandit, plug: Urlshortener.Router}
